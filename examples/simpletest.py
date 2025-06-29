@@ -10,7 +10,7 @@ import digitalio
 import busio
 
 # Import the SH1106 module.
-import adafruit_sh1106
+import sh1106
 
 # Setup the SPI pins
 dc = digitalio.DigitalInOut(board.A22)
