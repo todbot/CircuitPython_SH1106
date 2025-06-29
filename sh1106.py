@@ -31,7 +31,13 @@ MicroPython SH1106 OLED driver, I2C and SPI interfaces
 import time
 
 from micropython import const
-import framebuf
+try:
+    # MicroPython framebuf import
+    import framebuf
+except ImportError:
+    # CircuitPython framebuf import
+    import adafruit_framebuf as framebuf
+
 
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/winneymj/Adafruit_CircuitPython_SH1106.git"
@@ -235,7 +241,8 @@ class SH1106_SPI(_SH1106):
                  external_vcc=False, baudrate=8000000, polarity=0, phase=0):
         self.rate = 10 * 1024 * 1024
         dc.switch_to_output(value=0)
-        cs.switch_to_output(value=1)
+        if cs:
+            cs.switch_to_output(value=1)
         self.spi_bus = spi
         self.spi_bus.try_lock()
         self.spi_bus.configure(baudrate=baudrate, polarity=polarity, phase=phase)
